@@ -41,8 +41,8 @@ var TodoActions = {
    * @param  {object} todo
    */
   toggleComplete: function(todo) {
-    var id = todo.id;
-    var actionType = todo.complete ?
+    var id = todo.get('id');
+    var actionType = todo.get('complete') ?
         TodoConstants.TODO_UNDO_COMPLETE :
         TodoConstants.TODO_COMPLETE;
 

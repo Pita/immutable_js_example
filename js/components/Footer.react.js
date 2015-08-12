@@ -26,18 +26,15 @@ var Footer = React.createClass({
   render: function() {
     console.log('- Footer renders');
     var allTodos = this.props.allTodos;
-    var total = Object.keys(allTodos).length;
+    var total = allTodos.size;
 
-    if (total === 0) {
+    if (allTodos.isEmpty()) {
       return null;
     }
 
-    var completed = 0;
-    for (var key in allTodos) {
-      if (allTodos[key].complete) {
-        completed++;
-      }
-    }
+    var completed = allTodos.filter((todo) => {
+      return todo.get('complete');
+    }).size;
 
     var itemsLeft = total - completed;
     var itemsLeftPhrase = itemsLeft === 1 ? ' item ' : ' items ';

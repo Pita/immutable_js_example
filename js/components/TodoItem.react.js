@@ -12,13 +12,14 @@ var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions');
 var TodoTextInput = require('./TodoTextInput.react');
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+var Immutable = require('immutable');
 
 var classNames = require('classnames');
 
 var TodoItem = React.createClass({
 
   propTypes: {
-   todo: ReactPropTypes.object.isRequired
+    todo: React.PropTypes.instanceOf(Immutable.Map).isRequired
   },
 
   getInitialState: function() {
@@ -33,7 +34,7 @@ var TodoItem = React.createClass({
    * @return {object}
    */
   render: function() {
-    console.log('  - TodoItem renders', this.props.todo.text);
+    console.log('  - TodoItem renders', this.props.todo.get('text'));
     var todo = this.props.todo;
 
     var input;
@@ -42,7 +43,7 @@ var TodoItem = React.createClass({
         <TodoTextInput
           className="edit"
           onSave={this._onSave}
-          value={todo.text}
+          value={todo.get('text')}
         />;
     }
 
@@ -54,19 +55,19 @@ var TodoItem = React.createClass({
     return (
       <li
         className={classNames({
-          'completed': todo.complete,
+          'completed': todo.get('complete'),
           'editing': this.state.isEditing
         })}
-        key={todo.id}>
+        key={todo.get('id')}>
         <div className="view">
           <input
             className="toggle"
             type="checkbox"
-            checked={todo.complete}
+            checked={todo.get('complete')}
             onChange={this._onToggleComplete}
           />
           <label onDoubleClick={this._onDoubleClick}>
-            {todo.text}
+            {todo.get('text')}
           </label>
           <button className="destroy" onClick={this._onDestroyClick} />
         </div>
@@ -90,12 +91,12 @@ var TodoItem = React.createClass({
    * @param  {string} text
    */
   _onSave: function(text) {
-    TodoActions.updateText(this.props.todo.id, text);
+    TodoActions.updateText(this.props.todo.get('id'), text);
     this.setState({isEditing: false});
   },
 
   _onDestroyClick: function() {
-    TodoActions.destroy(this.props.todo.id);
+    TodoActions.destroy(this.props.todo.get('id'));
   }
 
 });

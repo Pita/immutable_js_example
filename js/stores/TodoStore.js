@@ -13,10 +13,11 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var TodoConstants = require('../constants/TodoConstants');
 var assign = require('object-assign');
+var Immutable = require('immutable');
 
 var CHANGE_EVENT = 'change';
 
-var _todos = {};
+var _todos = Immutable.Map();
 
 /**
  * Create a TODO item.
@@ -27,11 +28,11 @@ function create(text) {
   // server-side storage.
   // Using the current timestamp + random number in place of a real id.
   var id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
-  _todos[id] = {
+  _todos = _todos.set(id, Immutable.Map({
     id: id,
     complete: false,
     text: text
-  };
+  }));
 }
 
 /**
@@ -41,7 +42,10 @@ function create(text) {
  *     updated.
  */
 function update(id, updates) {
-  _todos[id] = assign({}, _todos[id], updates);
+  _todos = _todos.set(
+    id, 
+    _todos.get(id).merge(updates)
+  );
 }
 
 /**
@@ -50,9 +54,9 @@ function update(id, updates) {
  *     updated.
  */
 function updateAll(updates) {
-  for (var id in _todos) {
-    update(id, updates);
-  }
+  _todos = _todos.map(todo => {
+    return todo.merge(updates);
+  });
 }
 
 /**
@@ -60,18 +64,16 @@ function updateAll(updates) {
  * @param  {string} id
  */
 function destroy(id) {
-  delete _todos[id];
+  _todos = _todos.delete(id);
 }
 
 /**
  * Delete all the completed TODO items.
  */
 function destroyCompleted() {
-  for (var id in _todos) {
-    if (_todos[id].complete) {
-      destroy(id);
-    }
-  }
+  _todos = _todos.filter(todo => {
+    return todo.get('complete');
+  });
 }
 
 var TodoStore = assign({}, EventEmitter.prototype, {
@@ -81,12 +83,9 @@ var TodoStore = assign({}, EventEmitter.prototype, {
    * @return {boolean}
    */
   areAllComplete: function() {
-    for (var id in _todos) {
-      if (!_todos[id].complete) {
-        return false;
-      }
-    }
-    return true;
+    return _todos.find(todo => {
+      return todo.get('complete');
+    }) === null;
   },
 
   /**

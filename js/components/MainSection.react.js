@@ -12,11 +12,12 @@ var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions');
 var TodoItem = require('./TodoItem.react');
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+var Immutable = require('immutable');
 
 var MainSection = React.createClass({
 
   propTypes: {
-    allTodos: ReactPropTypes.object.isRequired,
+    allTodos: ReactPropTypes.instanceOf(Immutable.Map).isRequired,
     areAllComplete: ReactPropTypes.bool.isRequired
   },
 
@@ -29,16 +30,14 @@ var MainSection = React.createClass({
     console.log('- MainSection renders');
     // This section should be hidden by default
     // and shown when there are todos.
-    if (Object.keys(this.props.allTodos).length < 1) {
+    if (this.props.allTodos.isEmpty()) {
       return null;
     }
 
     var allTodos = this.props.allTodos;
-    var todos = [];
-
-    for (var key in allTodos) {
-      todos.push(<TodoItem key={key} todo={allTodos[key]} />);
-    }
+    var todos = allTodos.toArray().map((todo, key) => {
+      return <TodoItem key={key} todo={todo} />;
+    });
 
     return (
       <section id="main">
