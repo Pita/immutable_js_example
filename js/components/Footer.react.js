@@ -17,6 +17,10 @@ var Footer = React.createClass({
     allTodos: ReactPropTypes.object.isRequired
   },
 
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return  this.props.allTodos !== nextProps.allTodos;
+  },
+
   /**
    * @return {object}
    */

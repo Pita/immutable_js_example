@@ -29,6 +29,12 @@ function getTodoState() {
 }
 
 var TodoApp = React.createClass({
+  
+  shouldComponentUpdate: function(nextProps, nextState) {
+    //debugger;
+    return  this.state.areAllComplete !== nextState.areAllComplete ||
+      this.state.allTodos !== nextState.allTodos;
+  },
 
   getInitialState: function() {
     return getTodoState();

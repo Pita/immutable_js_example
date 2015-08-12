@@ -19,6 +19,13 @@ var MainSection = React.createClass({
     areAllComplete: ReactPropTypes.bool.isRequired
   },
 
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return (
+      this.props.areAllComplete !== nextProps.areAllComplete ||
+      this.props.allTodos !== nextProps.allTodos
+    );
+  },
+
   /**
    * @return {object}
    */

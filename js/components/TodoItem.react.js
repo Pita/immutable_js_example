@@ -26,6 +26,11 @@ var TodoItem = React.createClass({
     };
   },
 
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return this.props.todo !== nextProps.todo ||
+      this.state.isEditing !== nextState.isEditing;
+  },
+
   /**
    * @return {object}
    */

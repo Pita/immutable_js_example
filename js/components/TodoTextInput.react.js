@@ -28,6 +28,15 @@ var TodoTextInput = React.createClass({
     };
   },
 
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return this.props.className !== nextProps.className ||
+      this.props.id !== nextProps.id ||
+      this.props.placeholder !== nextProps.placeholder ||
+      this.props.onSave !== nextProps.onSave ||
+      this.props.value !== nextProps.value ||
+      this.state.value !== nextState.value;
+  },
+
   /**
    * @return {object}
    */
