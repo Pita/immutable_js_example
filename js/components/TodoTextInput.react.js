@@ -9,6 +9,7 @@
 
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 var ENTER_KEY_CODE = 13;
 
@@ -28,14 +29,7 @@ var TodoTextInput = React.createClass({
     };
   },
 
-  shouldComponentUpdate: function(nextProps, nextState) {
-    return this.props.className !== nextProps.className ||
-      this.props.id !== nextProps.id ||
-      this.props.placeholder !== nextProps.placeholder ||
-      this.props.onSave !== nextProps.onSave ||
-      this.props.value !== nextProps.value ||
-      this.state.value !== nextState.value;
-  },
+  mixins: [PureRenderMixin],
 
   /**
    * @return {object}

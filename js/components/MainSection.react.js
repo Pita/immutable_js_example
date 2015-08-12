@@ -11,6 +11,7 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions');
 var TodoItem = require('./TodoItem.react');
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 var MainSection = React.createClass({
 
@@ -19,12 +20,7 @@ var MainSection = React.createClass({
     areAllComplete: ReactPropTypes.bool.isRequired
   },
 
-  shouldComponentUpdate: function(nextProps, nextState) {
-    return (
-      this.props.areAllComplete !== nextProps.areAllComplete ||
-      this.props.allTodos !== nextProps.allTodos
-    );
-  },
+  mixins: [PureRenderMixin],
 
   /**
    * @return {object}

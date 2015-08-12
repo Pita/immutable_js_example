@@ -11,6 +11,7 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions');
 var TodoTextInput = require('./TodoTextInput.react');
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 var classNames = require('classnames');
 
@@ -26,10 +27,7 @@ var TodoItem = React.createClass({
     };
   },
 
-  shouldComponentUpdate: function(nextProps, nextState) {
-    return this.props.todo !== nextProps.todo ||
-      this.state.isEditing !== nextState.isEditing;
-  },
+  mixins: [PureRenderMixin],
 
   /**
    * @return {object}

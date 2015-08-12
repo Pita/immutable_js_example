@@ -17,6 +17,7 @@ var Header = require('./Header.react');
 var MainSection = require('./MainSection.react');
 var React = require('react');
 var TodoStore = require('../stores/TodoStore');
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 /**
  * Retrieve the current TODO data from the TodoStore
@@ -30,11 +31,7 @@ function getTodoState() {
 
 var TodoApp = React.createClass({
   
-  shouldComponentUpdate: function(nextProps, nextState) {
-    //debugger;
-    return  this.state.areAllComplete !== nextState.areAllComplete ||
-      this.state.allTodos !== nextState.allTodos;
-  },
+  mixins: [PureRenderMixin],
 
   getInitialState: function() {
     return getTodoState();

@@ -10,6 +10,7 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions');
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 var Footer = React.createClass({
 
@@ -17,10 +18,8 @@ var Footer = React.createClass({
     allTodos: ReactPropTypes.object.isRequired
   },
 
-  shouldComponentUpdate: function(nextProps, nextState) {
-    return  this.props.allTodos !== nextProps.allTodos;
-  },
-
+  mixins: [PureRenderMixin],
+  
   /**
    * @return {object}
    */
