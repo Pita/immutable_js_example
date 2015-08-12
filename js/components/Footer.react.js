@@ -21,6 +21,7 @@ var Footer = React.createClass({
    * @return {object}
    */
   render: function() {
+    console.log('- Footer renders');
     var allTodos = this.props.allTodos;
     var total = Object.keys(allTodos).length;
 

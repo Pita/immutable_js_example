@@ -17,6 +17,7 @@ var Header = React.createClass({
    * @return {object}
    */
   render: function() {
+    console.log('- Header renders');
     return (
       <header id="header">
         <h1>todos</h1>

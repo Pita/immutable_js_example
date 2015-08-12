@@ -32,6 +32,7 @@ var TodoTextInput = React.createClass({
    * @return {object}
    */
   render: function() /*object*/ {
+    console.log('  - TodoTextInput renders');
     return (
       <input
         className={this.props.className}

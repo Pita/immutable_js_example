@@ -46,6 +46,7 @@ var TodoApp = React.createClass({
    * @return {object}
    */
   render: function() {
+    console.log('TodoApp renders');
     return (
       <div>
         <Header />

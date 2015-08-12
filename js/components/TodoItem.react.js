@@ -30,6 +30,7 @@ var TodoItem = React.createClass({
    * @return {object}
    */
   render: function() {
+    console.log('  - TodoItem renders', this.props.todo.text);
     var todo = this.props.todo;
 
     var input;
